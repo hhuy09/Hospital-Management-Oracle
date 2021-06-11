@@ -83,6 +83,24 @@ namespace DATABASE_MANAGER
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
+            this.button17 = new System.Windows.Forms.Button();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.button18 = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.button21 = new System.Windows.Forms.Button();
+            this.textBox15 = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -373,6 +391,7 @@ namespace DATABASE_MANAGER
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.Size = new System.Drawing.Size(538, 306);
             this.dataGridView3.TabIndex = 1;
+            this.dataGridView3.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellClick);
             // 
             // groupBox1
             // 
@@ -416,6 +435,14 @@ namespace DATABASE_MANAGER
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.button18);
+            this.groupBox3.Controls.Add(this.button19);
+            this.groupBox3.Controls.Add(this.button20);
+            this.groupBox3.Controls.Add(this.textBox14);
+            this.groupBox3.Controls.Add(this.button21);
+            this.groupBox3.Controls.Add(this.textBox15);
+            this.groupBox3.Controls.Add(this.label18);
+            this.groupBox3.Controls.Add(this.label19);
             this.groupBox3.Controls.Add(this.dataGridView5);
             this.groupBox3.Location = new System.Drawing.Point(409, 6);
             this.groupBox3.Name = "groupBox3";
@@ -427,13 +454,24 @@ namespace DATABASE_MANAGER
             // dataGridView5
             // 
             this.dataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView5.Location = new System.Drawing.Point(6, 115);
+            this.dataGridView5.Location = new System.Drawing.Point(6, 141);
             this.dataGridView5.Name = "dataGridView5";
-            this.dataGridView5.Size = new System.Drawing.Size(525, 332);
+            this.dataGridView5.Size = new System.Drawing.Size(525, 306);
             this.dataGridView5.TabIndex = 0;
+            this.dataGridView5.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView5_CellClick);
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.button14);
+            this.groupBox4.Controls.Add(this.button15);
+            this.groupBox4.Controls.Add(this.button16);
+            this.groupBox4.Controls.Add(this.button17);
+            this.groupBox4.Controls.Add(this.textBox11);
+            this.groupBox4.Controls.Add(this.textBox12);
+            this.groupBox4.Controls.Add(this.textBox13);
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.label16);
+            this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.dataGridView4);
             this.groupBox4.Location = new System.Drawing.Point(6, 6);
             this.groupBox4.Name = "groupBox4";
@@ -445,10 +483,11 @@ namespace DATABASE_MANAGER
             // dataGridView4
             // 
             this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Location = new System.Drawing.Point(6, 115);
+            this.dataGridView4.Location = new System.Drawing.Point(6, 141);
             this.dataGridView4.Name = "dataGridView4";
-            this.dataGridView4.Size = new System.Drawing.Size(385, 332);
+            this.dataGridView4.Size = new System.Drawing.Size(385, 306);
             this.dataGridView4.TabIndex = 1;
+            this.dataGridView4.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView4_CellClick);
             // 
             // tabPage4
             // 
@@ -462,7 +501,7 @@ namespace DATABASE_MANAGER
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(5, 22);
+            this.label10.Location = new System.Drawing.Point(8, 25);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(79, 13);
             this.label10.TabIndex = 1;
@@ -471,7 +510,7 @@ namespace DATABASE_MANAGER
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(5, 48);
+            this.label11.Location = new System.Drawing.Point(8, 51);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(83, 13);
             this.label11.TabIndex = 2;
@@ -480,7 +519,7 @@ namespace DATABASE_MANAGER
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(5, 74);
+            this.label12.Location = new System.Drawing.Point(8, 77);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(77, 13);
             this.label12.TabIndex = 3;
@@ -488,28 +527,28 @@ namespace DATABASE_MANAGER
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(94, 19);
+            this.textBox6.Location = new System.Drawing.Point(97, 22);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 20);
             this.textBox6.TabIndex = 4;
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(94, 45);
+            this.textBox7.Location = new System.Drawing.Point(97, 48);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(100, 20);
             this.textBox7.TabIndex = 5;
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(94, 71);
+            this.textBox8.Location = new System.Drawing.Point(97, 74);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(100, 20);
             this.textBox8.TabIndex = 6;
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(313, 42);
+            this.button6.Location = new System.Drawing.Point(316, 45);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 7;
@@ -519,7 +558,7 @@ namespace DATABASE_MANAGER
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(313, 68);
+            this.button7.Location = new System.Drawing.Point(316, 71);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(75, 23);
             this.button7.TabIndex = 8;
@@ -529,7 +568,7 @@ namespace DATABASE_MANAGER
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(313, 16);
+            this.button8.Location = new System.Drawing.Point(316, 19);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(75, 23);
             this.button8.TabIndex = 9;
@@ -539,14 +578,14 @@ namespace DATABASE_MANAGER
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(98, 44);
+            this.textBox9.Location = new System.Drawing.Point(90, 21);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 20);
             this.textBox9.TabIndex = 13;
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(98, 18);
+            this.textBox10.Location = new System.Drawing.Point(90, 47);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(100, 20);
             this.textBox10.TabIndex = 12;
@@ -554,7 +593,7 @@ namespace DATABASE_MANAGER
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(9, 47);
+            this.label13.Location = new System.Drawing.Point(9, 51);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(62, 13);
             this.label13.TabIndex = 11;
@@ -563,7 +602,7 @@ namespace DATABASE_MANAGER
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(9, 21);
+            this.label14.Location = new System.Drawing.Point(9, 25);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(75, 13);
             this.label14.TabIndex = 10;
@@ -571,34 +610,37 @@ namespace DATABASE_MANAGER
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(456, 15);
+            this.button9.Location = new System.Drawing.Point(456, 19);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(75, 23);
             this.button9.TabIndex = 12;
             this.button9.Text = "Clean";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(456, 67);
+            this.button10.Location = new System.Drawing.Point(456, 71);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(75, 23);
             this.button10.TabIndex = 11;
             this.button10.Text = "Cập nhật";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(456, 41);
+            this.button11.Location = new System.Drawing.Point(456, 45);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(75, 23);
             this.button11.TabIndex = 10;
             this.button11.Text = "Thêm";
             this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(313, 94);
+            this.button12.Location = new System.Drawing.Point(316, 97);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(75, 23);
             this.button12.TabIndex = 10;
@@ -608,12 +650,173 @@ namespace DATABASE_MANAGER
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(456, 94);
+            this.button13.Location = new System.Drawing.Point(456, 98);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(75, 23);
             this.button13.TabIndex = 11;
             this.button13.Text = "Xóa";
             this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // button14
+            // 
+            this.button14.Location = new System.Drawing.Point(316, 97);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(75, 23);
+            this.button14.TabIndex = 20;
+            this.button14.Text = "Xóa";
+            this.button14.UseVisualStyleBackColor = true;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(316, 19);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(75, 23);
+            this.button15.TabIndex = 19;
+            this.button15.Text = "Clean";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(316, 71);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(75, 23);
+            this.button16.TabIndex = 18;
+            this.button16.Text = "Cập nhật";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
+            // button17
+            // 
+            this.button17.Location = new System.Drawing.Point(316, 45);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(75, 23);
+            this.button17.TabIndex = 17;
+            this.button17.Text = "Thêm";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button17_Click);
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(97, 74);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(100, 20);
+            this.textBox11.TabIndex = 16;
+            // 
+            // textBox12
+            // 
+            this.textBox12.Location = new System.Drawing.Point(97, 48);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(100, 20);
+            this.textBox12.TabIndex = 15;
+            // 
+            // textBox13
+            // 
+            this.textBox13.Location = new System.Drawing.Point(97, 22);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(100, 20);
+            this.textBox13.TabIndex = 14;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(8, 77);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(71, 13);
+            this.label15.TabIndex = 13;
+            this.label15.Text = "Trưởng khoa:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(8, 51);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(56, 13);
+            this.label16.TabIndex = 12;
+            this.label16.Text = "Tên khoa:";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(8, 25);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(52, 13);
+            this.label17.TabIndex = 11;
+            this.label17.Text = "Mã khoa:";
+            // 
+            // button18
+            // 
+            this.button18.Location = new System.Drawing.Point(456, 98);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(75, 23);
+            this.button18.TabIndex = 16;
+            this.button18.Text = "Xóa";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            // 
+            // button19
+            // 
+            this.button19.Location = new System.Drawing.Point(456, 19);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(75, 23);
+            this.button19.TabIndex = 19;
+            this.button19.Text = "Clean";
+            this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
+            // 
+            // button20
+            // 
+            this.button20.Location = new System.Drawing.Point(456, 71);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(75, 23);
+            this.button20.TabIndex = 17;
+            this.button20.Text = "Cập nhật";
+            this.button20.UseVisualStyleBackColor = true;
+            this.button20.Click += new System.EventHandler(this.button20_Click);
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(90, 21);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(100, 20);
+            this.textBox14.TabIndex = 21;
+            // 
+            // button21
+            // 
+            this.button21.Location = new System.Drawing.Point(456, 45);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(75, 23);
+            this.button21.TabIndex = 14;
+            this.button21.Text = "Thêm";
+            this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
+            // 
+            // textBox15
+            // 
+            this.textBox15.Location = new System.Drawing.Point(90, 47);
+            this.textBox15.Name = "textBox15";
+            this.textBox15.Size = new System.Drawing.Size(100, 20);
+            this.textBox15.TabIndex = 20;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(9, 51);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(35, 13);
+            this.label18.TabIndex = 18;
+            this.label18.Text = "Khoa:";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(9, 25);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(59, 13);
+            this.label19.TabIndex = 15;
+            this.label19.Text = "Mã bác sĩ:";
             // 
             // Form14
             // 
@@ -646,8 +849,10 @@ namespace DATABASE_MANAGER
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
             this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -708,5 +913,23 @@ namespace DATABASE_MANAGER
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.Button button21;
+        private System.Windows.Forms.TextBox textBox15;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
     }
 }

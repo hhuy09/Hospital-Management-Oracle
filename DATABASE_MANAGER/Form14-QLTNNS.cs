@@ -69,6 +69,8 @@ namespace DATABASE_MANAGER
             DataTable dt3 = new DataTable();
             dt3.Load(dr3);
             dataGridView3.DataSource = dt3;
+            dataGridView3.Columns["TENPB"].Width = 130;
+            dataGridView3.Columns["HOTENNS"].Width = 130;
 
             string sqlselect4 = "SELECT * FROM QLBENHVIEN.KHOA";
             OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
@@ -76,7 +78,7 @@ namespace DATABASE_MANAGER
             DataTable dt4 = new DataTable();
             dt4.Load(dr4);
             dataGridView4.DataSource = dt4;
-            //dataGridView4.Columns["TENPB"].Width = 130;
+            dataGridView4.Columns["TENKHOA"].Width = 135;
 
             string sqlselect5 = "SELECT * FROM QLBENHVIEN.BS_KH";
             OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
@@ -84,6 +86,8 @@ namespace DATABASE_MANAGER
             DataTable dt5 = new DataTable();
             dt5.Load(dr5);
             dataGridView5.DataSource = dt5;
+            dataGridView5.Columns["TENKHOA"].Width = 130;
+            dataGridView5.Columns["HOTENNS"].Width = 130;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -257,6 +261,10 @@ namespace DATABASE_MANAGER
                 string sqlselect = "delete qlbenhvien.phongban where mapb = '"+textBox6.Text+"'";
                 OracleCommand cmd = new OracleCommand(sqlselect, con);
                 OracleDataReader dr = cmd.ExecuteReader();
+
+                textBox6.Text = null;
+                textBox7.Text = null;
+                textBox8.Text = null;
             }
             catch (Exception ex)
             {
@@ -281,6 +289,292 @@ namespace DATABASE_MANAGER
                 textBox8.Text = row.Cells[1].Value.ToString();
                 textBox7.Text = row.Cells[2].Value.ToString();
             }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            string sqlselect3 = "SELECT * FROM QLBENHVIEN.nv_pb";
+            OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+            OracleDataReader dr3 = cmd3.ExecuteReader();
+            DataTable dt3 = new DataTable();
+            dt3.Load(dr3);
+            dataGridView3.DataSource = dt3;
+            dataGridView3.Columns["TENPB"].Width = 130;
+            dataGridView3.Columns["HOTENNS"].Width = 130;
+
+            textBox9.Text = null;
+            textBox10.Text = null;
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlselect = "insert into qlbenhvien.nhanvien values ('" + textBox9.Text + "', '" + textBox10.Text + "')";
+                OracleCommand cmd = new OracleCommand(sqlselect, con);
+                OracleDataReader dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            string sqlselect3 = "SELECT * FROM QLBENHVIEN.nv_pb";
+            OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+            OracleDataReader dr3 = cmd3.ExecuteReader();
+            DataTable dt3 = new DataTable();
+            dt3.Load(dr3);
+            dataGridView3.DataSource = dt3;
+            dataGridView3.Columns["TENPB"].Width = 130;
+            dataGridView3.Columns["HOTENNS"].Width = 130;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlselect = "update qlbenhvien.nhanvien set phongban = '"+ textBox10.Text + "' where manv = '" + textBox9.Text + "'";
+                OracleCommand cmd = new OracleCommand(sqlselect, con);
+                OracleDataReader dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            string sqlselect3 = "SELECT * FROM QLBENHVIEN.nv_pb";
+            OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+            OracleDataReader dr3 = cmd3.ExecuteReader();
+            DataTable dt3 = new DataTable();
+            dt3.Load(dr3);
+            dataGridView3.DataSource = dt3;
+            dataGridView3.Columns["TENPB"].Width = 130;
+            dataGridView3.Columns["HOTENNS"].Width = 130;
+        }
+
+        private void dataGridView3_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.dataGridView3.Rows[e.RowIndex];
+                textBox9.Text = row.Cells[0].Value.ToString();
+                textBox10.Text = row.Cells[2].Value.ToString();
+            }
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlselect = "delete qlbenhvien.nhanvien where manv = '" + textBox9.Text + "'";
+                OracleCommand cmd = new OracleCommand(sqlselect, con);
+                OracleDataReader dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            string sqlselect3 = "SELECT * FROM QLBENHVIEN.nv_pb";
+            OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+            OracleDataReader dr3 = cmd3.ExecuteReader();
+            DataTable dt3 = new DataTable();
+            dt3.Load(dr3);
+            dataGridView3.DataSource = dt3;
+            dataGridView3.Columns["TENPB"].Width = 130;
+            dataGridView3.Columns["HOTENNS"].Width = 130;
+
+            textBox9.Text = null;
+            textBox10.Text = null;
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            string sqlselect4 = "SELECT * FROM QLBENHVIEN.KHOA";
+            OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
+            OracleDataReader dr4 = cmd4.ExecuteReader();
+            DataTable dt4 = new DataTable();
+            dt4.Load(dr4);
+            dataGridView4.DataSource = dt4;
+            dataGridView4.Columns["TENKHOA"].Width = 135;
+
+            textBox11.Text = null;
+            textBox12.Text = null;
+            textBox13.Text = null;
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlselect = "insert into qlbenhvien.khoa values ('" + textBox13.Text + "', '" + textBox11.Text + "', '" + textBox12.Text + "')";
+                OracleCommand cmd = new OracleCommand(sqlselect, con);
+                OracleDataReader dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            string sqlselect4 = "SELECT * FROM QLBENHVIEN.KHOA";
+            OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
+            OracleDataReader dr4 = cmd4.ExecuteReader();
+            DataTable dt4 = new DataTable();
+            dt4.Load(dr4);
+            dataGridView4.DataSource = dt4;
+            dataGridView4.Columns["TENKHOA"].Width = 135;
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlselect = "update qlbenhvien.khoa set tenkhoa = '"+textBox12.Text+ "', truongkhoa = '" + textBox11.Text + "' where makhoa = '" + textBox13.Text + "'";
+                OracleCommand cmd = new OracleCommand(sqlselect, con);
+                OracleDataReader dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            string sqlselect4 = "SELECT * FROM QLBENHVIEN.KHOA";
+            OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
+            OracleDataReader dr4 = cmd4.ExecuteReader();
+            DataTable dt4 = new DataTable();
+            dt4.Load(dr4);
+            dataGridView4.DataSource = dt4;
+            dataGridView4.Columns["TENKHOA"].Width = 135;
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlselect = "delete qlbenhvien.khoa where makhoa = '" + textBox13.Text + "'";
+                OracleCommand cmd = new OracleCommand(sqlselect, con);
+                OracleDataReader dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            string sqlselect4 = "SELECT * FROM QLBENHVIEN.KHOA";
+            OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
+            OracleDataReader dr4 = cmd4.ExecuteReader();
+            DataTable dt4 = new DataTable();
+            dt4.Load(dr4);
+            dataGridView4.DataSource = dt4;
+            dataGridView4.Columns["TENKHOA"].Width = 135;
+        }
+
+        private void dataGridView4_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.dataGridView4.Rows[e.RowIndex];
+                textBox13.Text = row.Cells[0].Value.ToString();
+                textBox12.Text = row.Cells[2].Value.ToString();
+                textBox11.Text = row.Cells[1].Value.ToString();
+            }
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            string sqlselect5 = "SELECT * FROM QLBENHVIEN.BS_KH";
+            OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
+            OracleDataReader dr5 = cmd5.ExecuteReader();
+            DataTable dt5 = new DataTable();
+            dt5.Load(dr5);
+            dataGridView5.DataSource = dt5;
+            dataGridView5.Columns["TENKHOA"].Width = 130;
+            dataGridView5.Columns["HOTENNS"].Width = 130;
+
+            textBox14.Text = null;
+            textBox15.Text = null;
+        }
+
+        private void dataGridView5_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.dataGridView5.Rows[e.RowIndex];
+                textBox14.Text = row.Cells[0].Value.ToString();
+                textBox15.Text = row.Cells[2].Value.ToString();
+            }
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlselect = "insert into qlbenhvien.bacsi values ('" + textBox14.Text + "', '" + textBox15.Text + "')";
+                OracleCommand cmd = new OracleCommand(sqlselect, con);
+                OracleDataReader dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            string sqlselect5 = "SELECT * FROM QLBENHVIEN.BS_KH";
+            OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
+            OracleDataReader dr5 = cmd5.ExecuteReader();
+            DataTable dt5 = new DataTable();
+            dt5.Load(dr5);
+            dataGridView5.DataSource = dt5;
+            dataGridView5.Columns["TENKHOA"].Width = 130;
+            dataGridView5.Columns["HOTENNS"].Width = 130;
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlselect = "update qlbenhvien.bacsi set khoa = '"+textBox15.Text+"' where mabs ='" + textBox14.Text + "'";
+                OracleCommand cmd = new OracleCommand(sqlselect, con);
+                OracleDataReader dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            string sqlselect5 = "SELECT * FROM QLBENHVIEN.BS_KH";
+            OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
+            OracleDataReader dr5 = cmd5.ExecuteReader();
+            DataTable dt5 = new DataTable();
+            dt5.Load(dr5);
+            dataGridView5.DataSource = dt5;
+            dataGridView5.Columns["TENKHOA"].Width = 130;
+            dataGridView5.Columns["HOTENNS"].Width = 130;
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlselect = "delete qlbenhvien.bacsi where mabs ='" + textBox14.Text + "'";
+                OracleCommand cmd = new OracleCommand(sqlselect, con);
+                OracleDataReader dr = cmd.ExecuteReader();
+
+                textBox14.Text = null;
+                textBox15.Text = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            string sqlselect5 = "SELECT * FROM QLBENHVIEN.BS_KH";
+            OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
+            OracleDataReader dr5 = cmd5.ExecuteReader();
+            DataTable dt5 = new DataTable();
+            dt5.Load(dr5);
+            dataGridView5.DataSource = dt5;
+            dataGridView5.Columns["TENKHOA"].Width = 130;
+            dataGridView5.Columns["HOTENNS"].Width = 130;
         }
     }
 }
