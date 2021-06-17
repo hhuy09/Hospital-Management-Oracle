@@ -117,9 +117,27 @@ namespace DATABASE_MANAGER
                         this.Hide();
                         kt.Show();
                     }
-                    else if (type == "6") //ql tnns
+                    else if (type == "6") //qltnns
                     {
                         Form14 kt = new Form14();
+                        kt.connectionString = connectionString;
+                        kt.username = us;
+                        kt.password = password;
+                        this.Hide();
+                        kt.Show();
+                    }
+                    else if (type == "7") //qltv
+                    {
+                        Form15 kt = new Form15();
+                        kt.connectionString = connectionString;
+                        kt.username = us;
+                        kt.password = password;
+                        this.Hide();
+                        kt.Show();
+                    }
+                    else if (type == "8") //qlcm
+                    {
+                        Form16 kt = new Form16();
                         kt.connectionString = connectionString;
                         kt.username = us;
                         kt.password = password;

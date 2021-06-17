@@ -28,6 +28,4 @@ C:\Users\HuyNguyen\source\repos\DATABASE_MANAGER\DATABASE_MANAGER\obj\Debug\DATA
 C:\Users\HuyNguyen\source\repos\DATABASE_MANAGER\DATABASE_MANAGER\obj\Debug\DATABASE_MANAGER.Form18.resources
 C:\Users\HuyNguyen\source\repos\DATABASE_MANAGER\DATABASE_MANAGER\obj\Debug\DATABASE_MANAGER.Form19.resources
 C:\Users\HuyNguyen\source\repos\DATABASE_MANAGER\DATABASE_MANAGER\obj\Debug\DATABASE_MANAGER.Form20.resources
-C:\Users\HuyNguyen\source\repos\DATABASE_MANAGER\DATABASE_MANAGER\obj\Debug\DATABASE_MANAGER.Form21.resources
-C:\Users\HuyNguyen\source\repos\DATABASE_MANAGER\DATABASE_MANAGER\obj\Debug\DATABASE_MANAGER.Form22.resources
 C:\Users\HuyNguyen\source\repos\DATABASE_MANAGER\DATABASE_MANAGER\obj\Debug\DATABASE_MANAGER.csproj.AssemblyReference.cache

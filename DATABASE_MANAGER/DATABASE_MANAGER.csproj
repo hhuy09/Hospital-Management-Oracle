@@ -81,17 +81,17 @@
     <Compile Include="Form14-QLTNNS.Designer.cs">
       <DependentUpon>Form14-QLTNNS.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form15.cs">
+    <Compile Include="Form15-QLTV.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form15.Designer.cs">
-      <DependentUpon>Form15.cs</DependentUpon>
+    <Compile Include="Form15-QLTV.Designer.cs">
+      <DependentUpon>Form15-QLTV.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form16.cs">
+    <Compile Include="Form16-QLCM.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form16.Designer.cs">
-      <DependentUpon>Form16.cs</DependentUpon>
+    <Compile Include="Form16-QLCM.Designer.cs">
+      <DependentUpon>Form16-QLCM.cs</DependentUpon>
     </Compile>
     <Compile Include="Form17-TAIVU.cs">
       <SubType>Form</SubType>
@@ -128,18 +128,6 @@
     </Compile>
     <Compile Include="Form20-KETOAN.Designer.cs">
       <DependentUpon>Form20-KETOAN.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Form21.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form21.Designer.cs">
-      <DependentUpon>Form21.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Form22.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form22.Designer.cs">
-      <DependentUpon>Form22.cs</DependentUpon>
     </Compile>
     <Compile Include="Form3.cs">
       <SubType>Form</SubType>
@@ -191,11 +179,11 @@
     <EmbeddedResource Include="Form14-QLTNNS.resx">
       <DependentUpon>Form14-QLTNNS.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form15.resx">
-      <DependentUpon>Form15.cs</DependentUpon>
+    <EmbeddedResource Include="Form15-QLTV.resx">
+      <DependentUpon>Form15-QLTV.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form16.resx">
-      <DependentUpon>Form16.cs</DependentUpon>
+    <EmbeddedResource Include="Form16-QLCM.resx">
+      <DependentUpon>Form16-QLCM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form17-TAIVU.resx">
       <DependentUpon>Form17-TAIVU.cs</DependentUpon>
@@ -214,12 +202,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form20-KETOAN.resx">
       <DependentUpon>Form20-KETOAN.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form21.resx">
-      <DependentUpon>Form21.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form22.resx">
-      <DependentUpon>Form22.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form3.resx">
       <DependentUpon>Form3.cs</DependentUpon>
