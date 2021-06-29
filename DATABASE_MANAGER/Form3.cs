@@ -26,43 +26,6 @@ namespace DATABASE_MANAGER
             con.ConnectionString = connectionString;
             con.Open();
 
-            //string sqlselect = "select ROLE from DBA_ROLES";
-            //OracleCommand cmd = new OracleCommand(sqlselect, con);
-            //OracleDataReader dr = cmd.ExecuteReader();
-            //DataTable dt = new DataTable();
-            //dt.Load(dr);
-            //dataGridView1.DataSource = dt;
-            //dataGridView1.Columns["ROLE"].Width = 200;
-
-            //DataGridViewTextBoxColumn sysprivs = new DataGridViewTextBoxColumn();
-            //sysprivs.HeaderText = "PRIVILEGE";
-            //sysprivs.Width = 200;
-            //DataGridViewCheckBoxColumn grant = new DataGridViewCheckBoxColumn();
-            //grant.HeaderText = "GRANT";
-            //DataGridViewCheckBoxColumn adoption = new DataGridViewCheckBoxColumn();
-            //adoption.HeaderText = "ADMIN OPTION";
-
-            //dataGridView3.Columns.Add(sysprivs);
-            //dataGridView3.Columns.Add(grant);
-            //dataGridView3.Columns.Add(adoption);
-
-            //dataGridView3.Rows.Add("CREATE ANY INDEX", false, false);
-            //dataGridView3.Rows.Add("ALTER ANY INDEX", false, false);
-            //dataGridView3.Rows.Add("DROP ANY INDEX", false, false);
-            //dataGridView3.Rows.Add("CREATE TABLE", false, false);
-            //dataGridView3.Rows.Add("CREATE ANY TABLE", false, false);
-            //dataGridView3.Rows.Add("ALTER ANY TABLE", false, false);
-            //dataGridView3.Rows.Add("DROP ANY TABLE", false, false);
-            //dataGridView3.Rows.Add("SELECT ANY TABLE", false, false);
-            //dataGridView3.Rows.Add("UPDATE ANY TABLE", false, false);
-            //dataGridView3.Rows.Add("DELETE ANY TABLE", false, false);
-            //dataGridView3.Rows.Add("CREATE SESSION", false, false);
-            //dataGridView3.Rows.Add("ALTER SESSION", false, false);
-            //dataGridView3.Rows.Add("RESTRICTED SESSION", false, false);
-            //dataGridView3.Rows.Add("CREATE TABLESPACE", false, false);
-            //dataGridView3.Rows.Add("ALTER TABLESPACE", false, false);
-            //dataGridView3.Rows.Add("DROP TABLESPACE", false, false);
-            //dataGridView3.Rows.Add("UNLIMITED TABLESPACE", false, false);
         }
 
         private void button11_Click(object sender, EventArgs e)
@@ -87,9 +50,9 @@ namespace DATABASE_MANAGER
                     this.Close();
                 }
             }
-            catch(Exception)
+            catch(Exception error)
             {
-                MessageBox.Show("ERROR");
+                MessageBox.Show(error.Message);
             }
 
         }

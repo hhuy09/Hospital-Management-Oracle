@@ -20,7 +20,7 @@ namespace DATABASE_MANAGER
             string username = textBox1.Text;
             username = username.ToUpper();
             string password = textBox2.Text;
-            connectionString = "DATA SOURCE = localhost:1521/xe; user id = " + username + "; PASSWORD = " + password + "";
+            connectionString = "DATA SOURCE = localhost:1521/QUANLYBENHVIEN; user id = " + username + "; PASSWORD = " + password + "";
 
             if(username == "QLBENHVIEN")
             {

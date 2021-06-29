@@ -36,7 +36,7 @@ namespace DATABASE_MANAGER
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //try
+            try
             {
                 OracleCommand cmd = new OracleCommand("CREATE_ROLE", con);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -44,14 +44,12 @@ namespace DATABASE_MANAGER
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Created successfully");
                 this.Close();
-                //string sqlselect = "CREATE ROLE " + textBox1.Text;
-                //OracleCommand cmd = new OracleCommand(sqlselect, con);
-                //OracleDataReader dr = cmd.ExecuteReader();
+
             }
-            //catch (Exception)
-            //{
-            //    MessageBox.Show("ERROR");
-            //}
+            catch (Exception error)
+            {
+                MessageBox.Show(error.Message);
+            }
         }
     }
 }

@@ -49,9 +49,9 @@ namespace DATABASE_MANAGER
 
                 this.Close();
             }
-            catch(Exception)
+            catch(Exception error)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show(error.Message);
             }
 }
     }

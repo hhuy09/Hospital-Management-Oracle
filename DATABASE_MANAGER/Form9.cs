@@ -42,30 +42,46 @@ namespace DATABASE_MANAGER
 
             label10.Text = tbname;
 
-            string sqlselect = "select COLUMN_NAME from ALL_TAB_COLUMNS where owner = '" + dbm + "' and TABLE_NAME = '" + tbname + "'";
-            OracleCommand cmd = new OracleCommand(sqlselect, con);
-            OracleDataReader dr = cmd.ExecuteReader();
-            DataTable dt = new DataTable();
-            dt.Load(dr);
-            dataGridView1.DataSource = dt;
-            dataGridView4.DataSource = dt;
+            string sqlselect1 = "select COLUMN_NAME from ALL_TAB_COLUMNS where owner = '" + dbm + "' and TABLE_NAME = '" + tbname + "'";
+            OracleCommand cmd1 = new OracleCommand(sqlselect1, con);
+            OracleDataReader dr1 = cmd1.ExecuteReader();
+            DataTable dt1 = new DataTable();
+            dt1.Load(dr1);
+            dt1.Columns.Add(new DataColumn("SELECT", typeof(bool)));
+            dataGridView1.DataSource = dt1;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoResizeColumns();
 
-
-            string sqlselect5 = "select TABLE_NAME , GRANTABLE from DBA_TAB_PRIVS where PRIVILEGE = 'SELECT' AND owner = '" + dbm + "' AND TYPE = 'VIEW' AND GRANTEE = '" + name + "'";
-            OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
-            OracleDataReader dr5 = cmd5.ExecuteReader();
-            DataTable dt5 = new DataTable();
-            dt5.Load(dr5);
-            dataGridView5.DataSource = dt5;
-
-
-            string sqlselect2 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from DBA_COL_PRIVS where owner = '" + dbm + "' and TABLE_NAME = '" + tbname + "'";
+            string sqlselect2 = "select TABLE_NAME , GRANTABLE from USER_TAB_PRIVS where PRIVILEGE = 'SELECT' AND TYPE = 'VIEW' AND GRANTEE = '" + name + "'";
             OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
             OracleDataReader dr2 = cmd2.ExecuteReader();
             DataTable dt2 = new DataTable();
             dt2.Load(dr2);
+            dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
             dataGridView2.DataSource = dt2;
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView2.AutoResizeColumns();
 
+            string sqlselect3 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from USER_COL_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND GRANTEE = '" + name + "'";
+            OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+            OracleDataReader dr3 = cmd3.ExecuteReader();
+            DataTable dt3 = new DataTable();
+            dt3.Load(dr3);
+            dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+            dataGridView3.DataSource = dt3;
+            dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView3.AutoResizeColumns();
+
+            string sqlselect4 = "select COLUMN_NAME from ALL_TAB_COLUMNS where owner = '" + dbm + "' and TABLE_NAME = '" + tbname + "'";
+            OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
+            OracleDataReader dr4 = cmd4.ExecuteReader();
+            DataTable dt4 = new DataTable();
+            dt4.Load(dr4);
+            dt4.Columns.Add(new DataColumn("INSERT", typeof(bool)));
+            dt4.Columns.Add(new DataColumn("UPDATE", typeof(bool)));
+            dataGridView4.DataSource = dt4;           
+            dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView4.AutoResizeColumns();
 
         }
 
@@ -75,47 +91,9 @@ namespace DATABASE_MANAGER
             this.Close();
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                //Lưu lại dòng dữ liệu vừa kích chọn
-                DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
-                //Đưa dữ liệu vào textbox
-                label6.Text = row.Cells[0].Value.ToString();
-            }
-        }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string sqlgrant = "GRANT UPDATE (";
-                if (checkBox3.Checked)
-                {
-                    sqlgrant += label6.Text + ") ON " + label10.Text + " TO " + name + " WITH GRANT OPTION";
-                    checkBox3.Checked = false;
-                }
-                else
-                {
-                    sqlgrant += label6.Text + ") ON " + label10.Text + " TO " + name; 
-                }
-                OracleCommand cmd = new OracleCommand(sqlgrant, con);
-                OracleDataReader dr = cmd.ExecuteReader();
 
-                string sqlselect2 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from DBA_COL_PRIVS where owner = '" + dbm + "' and TABLE_NAME = '" + tbname + "'";
-                OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
-                OracleDataReader dr2 = cmd2.ExecuteReader();
-                DataTable dt2 = new DataTable();
-                dt2.Load(dr2);
-                dataGridView2.DataSource = dt2;
-
-            }
-            catch
-            {
-                MessageBox.Show("ERROR");
-            }
-        }
+    
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -139,132 +117,237 @@ namespace DATABASE_MANAGER
             }
         }
 
-        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                //Lưu lại dòng dữ liệu vừa kích chọn
-                DataGridViewRow row = this.dataGridView2.Rows[e.RowIndex];
-                //Đưa dữ liệu vào textbox
-                label8.Text = row.Cells[0].Value.ToString();
-            }
-        }
-
-        private void dataGridView4_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                //Lưu lại dòng dữ liệu vừa kích chọn
-                DataGridViewRow row = this.dataGridView2.Rows[e.RowIndex];
-                //Đưa dữ liệu vào textbox
-                col = row.Cells[0].Value.ToString();
-            }
-        }
-
-
         private void button5_Click(object sender, EventArgs e)
         {
-            try
+            int row = dataGridView1.Rows.Count - 1;
+            string viewname = textBox1.Text;
+            string selectview = null;
+
+            if (row > 0)
             {
-                string sqlselect2 = "create view " + textBox2.Text + " as select ";
-                for(int i = 0; i< listBox1.Items.Count; i++)
+                int col = 0;
+                selectview = "create view " + viewname + " as select ";
+
+                for (int i = 0; i < row;i++)
                 {
-                    sqlselect2 += listBox1.Items[i];
-                    if (i != listBox1.Items.Count - 1)
+                    string colname = dataGridView1.Rows[i].Cells[0].Value.ToString();
+                    string select = dataGridView1.Rows[i].Cells[1].Value.ToString();
+
+                    if (select == "True")
                     {
-                        sqlselect2 += ", ";
+                        selectview += colname + ", ";
+                        col++;
                     }
                 }
 
-                sqlselect2 += " from " + label10.Text;
-                OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
-                OracleDataReader dr2 = cmd2.ExecuteReader();
+                selectview = selectview.Substring(0, selectview.Length - 2);
+                selectview += " from " + tbname;
 
-                //MessageBox.Show(sqlselect2);
-
-                string sqlselect = "grant select on ";
-                if (checkBox1.Checked)
+                if (selectview != null)
                 {
-                    sqlselect += textBox2.Text + " to " + name+" with grant option";
+                    try
+                    {
+                        OracleCommand cmd = new OracleCommand(selectview, con);
+                        OracleDataReader dr = cmd.ExecuteReader();
+                    }
+                    catch (Exception error)
+                    {
+                        MessageBox.Show(error.Message);
+                    }
+                    
+
+                    string sqlselect = "grant select on ";
+                    if (checkBox1.Checked)
+                    {
+                        sqlselect += viewname + " to " + name + " with grant option";
+                    }
+                    else
+                    {
+                        sqlselect += viewname + " to " + name;
+                    }
+
+                    try
+                    {
+                        OracleCommand cmd1 = new OracleCommand(sqlselect, con);
+                        OracleDataReader dr1 = cmd1.ExecuteReader();
+                    }
+                    catch (Exception error)
+                    {
+                        MessageBox.Show(error.Message);
+                    }
                     
                 }
-                else
-                {
-                    sqlselect = "grant select on " + textBox2.Text + " to " + name;
-                    
-                }
 
-                OracleCommand cmd = new OracleCommand(sqlselect, con);
-                OracleDataReader dr = cmd.ExecuteReader();
-
-                string sqlselect5 = "select TABLE_NAME , GRANTABLE from DBA_TAB_PRIVS where PRIVILEGE = 'SELECT' AND owner = '" + dbm + "' AND TYPE = 'VIEW' AND GRANTEE = '" + name + "'";
-                OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
-                OracleDataReader dr5 = cmd5.ExecuteReader();
-                DataTable dt5 = new DataTable();
-                dt5.Load(dr5);
-                dataGridView5.DataSource = dt5;
-            }
-            catch
-            {
-                string sqlselect2 = "drop view " + textBox2.Text;
+                string sqlselect2 = "select TABLE_NAME , GRANTABLE from USER_TAB_PRIVS where PRIVILEGE = 'SELECT' AND TYPE = 'VIEW' AND GRANTEE = '" + name + "'";
                 OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
                 OracleDataReader dr2 = cmd2.ExecuteReader();
-            }
-        }
+                DataTable dt2 = new DataTable();
+                dt2.Load(dr2);
+                dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                dataGridView2.DataSource = dt2;
+                dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView2.AutoResizeColumns();
 
-
-        private void dataGridView5_CellClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-            string tb = null;
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = this.dataGridView5.Rows[e.RowIndex];
-                tb = row.Cells[0].Value.ToString();
-
-                label1.Text = tb;
             }
 
-            string sqlselect2 = "select * from " + tb;
-            OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
-            OracleDataReader dr2 = cmd2.ExecuteReader();
-            DataTable dt2 = new DataTable();
-            dt2.Load(dr2);
-            dataGridView6.DataSource = dt2;
+            checkBox1.Checked = false;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-                string sqlselect2 = "REVOKE SELECT ON " + label1.Text + " FROM " + name;
+            int row = dataGridView2.Rows.Count - 1;
+            if (row > 0)
+            {
+                for (int i = 0; i < row; i++)
+                {
+                    string view = dataGridView2.Rows[i].Cells[0].Value.ToString();
+                    string revoke = dataGridView2.Rows[i].Cells[2].Value.ToString();
+
+                    if (revoke == "True")
+                    {
+                        string sqlrevoke = "DROP VIEW " + view;
+                        try
+                        {
+                            OracleCommand cmd = new OracleCommand(sqlrevoke, con);
+                            OracleDataReader dr = cmd.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show(error.Message);
+                        }
+                    }
+                }
+
+                string sqlselect2 = "select TABLE_NAME , GRANTABLE from USER_TAB_PRIVS where PRIVILEGE = 'SELECT' AND TYPE = 'VIEW' AND GRANTEE = '" + name + "'";
                 OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
                 OracleDataReader dr2 = cmd2.ExecuteReader();
+                DataTable dt2 = new DataTable();
+                dt2.Load(dr2);
+                dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                dataGridView2.DataSource = dt2;
+                dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView2.AutoResizeColumns();
 
-                string sqlselect5 = "select TABLE_NAME , GRANTABLE from DBA_TAB_PRIVS where PRIVILEGE = 'SELECT' AND owner = '" + dbm + "' AND TYPE = 'VIEW'  AND GRANTEE = '" + name + "'";
-                OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
-                OracleDataReader dr5 = cmd5.ExecuteReader();
-                DataTable dt5 = new DataTable();
-                dt5.Load(dr5);
-                dataGridView5.DataSource = dt5;
-            //}
-            //catch(Exception )
-            //{
-            //    MessageBox.Show();
-            //}
-        }
-
-        private void dataGridView4_CellClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = this.dataGridView4.Rows[e.RowIndex];
-                listBox1.Items.Add(row.Cells[0].Value.ToString());
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
-            listBox1.Items.Clear();
+            int row = dataGridView3.Rows.Count - 1;
+            if (row > 0)
+            {
+                for (int i = 0; i < row; i++)
+                {
+                    string privs = dataGridView3.Rows[i].Cells[1].Value.ToString();
+                    string revoke = dataGridView3.Rows[i].Cells[3].Value.ToString();
+
+                    string sqlrevoke = null;
+
+                    if (revoke == "True")
+                    {
+                        sqlrevoke = "REVOKE " + privs + " ON " + tbname + " FROM " + name;
+                        try
+                        {
+                            OracleCommand cmd = new OracleCommand(sqlrevoke, con);
+                            OracleDataReader dr = cmd.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show(error.Message);
+                        }
+                    }
+                }
+
+                string sqlselect3 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from USER_COL_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND GRANTEE = '" + name + "'";
+                OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+                OracleDataReader dr3 = cmd3.ExecuteReader();
+                DataTable dt3 = new DataTable();
+                dt3.Load(dr3);
+                dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                dataGridView3.DataSource = dt3;
+                dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView3.AutoResizeColumns();
+
+            }
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            int row = dataGridView4.Rows.Count - 1;
+            if (row > 0)
+            {
+                for (int i = 0; i < row; i++)
+                {
+                    string col = dataGridView4.Rows[i].Cells[0].Value.ToString();
+                    string insert = dataGridView4.Rows[i].Cells[1].Value.ToString();
+                    string update = dataGridView4.Rows[i].Cells[2].Value.ToString();
+
+                    string sqlgrantinsert = null;
+                    string sqlgrantupdate = null;
+
+                    if (insert == "True")
+                    {
+                        sqlgrantinsert = "GRANT INSERT(" + col + ") ON " + tbname + " TO " + name;
+                    }
+
+                    if (update == "True")
+                    {
+                        sqlgrantupdate = "GRANT UPDATE(" + col + ") ON " + tbname + " TO " + name;
+                    }
+
+                    if (checkBox2.Checked)
+                    { 
+                        if (sqlgrantinsert != null)
+                        {
+                            sqlgrantinsert += " WITH GRANT OPTION";
+                        }
+
+                        if (sqlgrantupdate != null)
+                        {
+                            sqlgrantupdate += " WITH GRANT OPTION";
+                        }
+                    }
+
+                    if (sqlgrantinsert != null)
+                    {
+                        try
+                        {
+                            OracleCommand cmd = new OracleCommand(sqlgrantinsert, con);
+                            OracleDataReader dr = cmd.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show(error.Message);
+                        }
+                    }
+
+                    if (sqlgrantupdate != null)
+                    {
+                        try
+                        {
+                            OracleCommand cmd = new OracleCommand(sqlgrantupdate, con);
+                            OracleDataReader dr = cmd.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show(error.Message);
+                        }
+                    }
+
+                }
+
+                string sqlselect3 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from USER_COL_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND GRANTEE = '" + name + "'";
+                OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+                OracleDataReader dr3 = cmd3.ExecuteReader();
+                DataTable dt3 = new DataTable();
+                dt3.Load(dr3);
+                dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                dataGridView3.DataSource = dt3;
+                dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView3.AutoResizeColumns();
+            }
+
+            checkBox2.Checked = false;
         }
     }
 }

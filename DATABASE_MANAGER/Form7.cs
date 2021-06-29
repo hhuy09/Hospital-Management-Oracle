@@ -30,13 +30,16 @@ namespace DATABASE_MANAGER
 
             label4.Text = rolename;
 
-            string sqlselect = "select ROLE from DBA_ROLES";
+            string sqlselect = "SELECT ROLE FROM DBA_ROLES";
             OracleCommand cmd = new OracleCommand(sqlselect, con);
             OracleDataReader dr = cmd.ExecuteReader();
             DataTable dt = new DataTable();
             dt.Load(dr);
-            dataGridView1.DataSource = dt;
-            dataGridView1.Columns["ROLE"].Width = 225;
+            dt.Columns.Add(new DataColumn("GRANTED", typeof(bool)));
+            dt.Columns.Add(new DataColumn("ADMIN", typeof(bool)));
+            dataGridView1.DataSource = dt;  
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoResizeColumns();
 
 
             string sqlselect2 = "select GRANTED_ROLE, ADMIN_OPTION from ROLE_ROLE_PRIVS where ROLE = '" + rolename + "'";
@@ -44,9 +47,11 @@ namespace DATABASE_MANAGER
             OracleDataReader dr2 = cmd2.ExecuteReader();
             DataTable dt2 = new DataTable();
             dt2.Load(dr2);
+            dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
             dataGridView2.DataSource = dt2;
-            dataGridView2.Columns["GRANTED_ROLE"].Width = 120;
-            
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView2.AutoResizeColumns();
+
 
             string sqlselect4 = "select PRIVILEGE, ADMIN_OPTION from ROLE_SYS_PRIVS where ROLE = '" + rolename + "'";
             OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
@@ -56,21 +61,26 @@ namespace DATABASE_MANAGER
             dataGridView4.DataSource = dt4;
             dataGridView4.Columns["PRIVILEGE"].Width = 225;
 
-            string sqlselect6 = "SELECT USERNAME FROM ALL_USERS";
+            string sqlselect6 = "SELECT USERNAME FROM LIST_USER";
             OracleCommand cmd6 = new OracleCommand(sqlselect6, con);
             OracleDataReader dr6 = cmd6.ExecuteReader();
             DataTable dt6 = new DataTable();
             dt6.Load(dr6);
+            dt6.Columns.Add(new DataColumn("GRANTED", typeof(bool)));
+            dt6.Columns.Add(new DataColumn("ADMIN", typeof(bool)));
             dataGridView6.DataSource = dt6;
-            dataGridView6.Columns["USERNAME"].Width = 225;
+            dataGridView6.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView6.AutoResizeColumns();
 
-            string sqlselect5 = "SELECT GRANTEE, ADMIN_OPTION FROM DBA_ROLE_PRIVS WHERE GRANTED_ROLE = '" + rolename + "'";
+            string sqlselect5 = "SELECT GRANTEE, ADMIN_OPTION FROM USER_ROLE_PRIVS WHERE GRANTED_ROLE = '" + rolename + "'";
             OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
             OracleDataReader dr5 = cmd5.ExecuteReader();
             DataTable dt5 = new DataTable();
             dt5.Load(dr5);
+            dt5.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
             dataGridView5.DataSource = dt5;
-            dataGridView5.Columns["GRANTEE"].Width = 120;
+            dataGridView5.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView5.AutoResizeColumns();
 
             string sqlselect8 = "select OWNER, TABLE_NAME from all_tables where OWNER = '" + dbm + "'";
             OracleCommand cmd8 = new OracleCommand(sqlselect8, con);
@@ -421,36 +431,63 @@ namespace DATABASE_MANAGER
 
         private void button2_Click(object sender, EventArgs e)
         {
-            try
+            int row = dataGridView1.Rows.Count - 1;
+            if (row > 0)
             {
-                string sqlgrant = "GRANT ";
-                if (checkBox1.Checked)
+                for (int i = 0; i < row; i++)
                 {
-                    sqlgrant += label5.Text + " TO " + label4.Text + " WITH ADMIN OPTION";
-                    checkBox1.Checked = false;
+                    string role = dataGridView1.Rows[i].Cells[0].Value.ToString();
+                    string granted = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    string admin = dataGridView1.Rows[i].Cells[2].Value.ToString();
+
+                    string sqlgrant = null;
+                    if (admin == "True")
+                    {
+                        sqlgrant = "GRANT " + role + " TO " + rolename + " WITH ADMIN OPTION";
+                    }
+                    else if ((admin == "False" || admin == "") && granted == "True")
+                    {
+                        string sqlrevoke = "REVOKE " + role + " FROM " + rolename;
+                        try
+                        {
+                            OracleCommand cmd = new OracleCommand(sqlrevoke, con);
+                            OracleDataReader dr = cmd.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            //MessageBox.Show(error.Message);
+                        }
+
+                        sqlgrant = "GRANT " + role + " TO " + rolename;
+                    }
+
+                    if (sqlgrant != null)
+                    {
+                        try
+                        {
+                            MessageBox.Show(sqlgrant);
+                            OracleCommand cmd = new OracleCommand(sqlgrant, con);
+                            OracleDataReader dr = cmd.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show(error.Message);
+                        }
+                    }
                 }
-                else
-                {
-                    sqlgrant += label5.Text + " TO " + label4.Text;
-                }
 
-                OracleCommand cmd = new OracleCommand(sqlgrant, con);
-                OracleDataReader dr = cmd.ExecuteReader();
-
-                string sqlselect4 = "select granted_role, admin_option from dba_role_privs where grantee = '" + rolename + "'";
-                OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
-                OracleDataReader dr4 = cmd4.ExecuteReader();
-                DataTable dt4 = new DataTable();
-                dt4.Load(dr4);
-                dataGridView2.DataSource = dt4;
-                dataGridView2.Columns["GRANTED_ROLE"].Width = 120;
-
+                string sqlselect2 = "select GRANTED_ROLE, ADMIN_OPTION from ROLE_ROLE_PRIVS where ROLE = '" + rolename + "'";
+                OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
+                OracleDataReader dr2 = cmd2.ExecuteReader();
+                DataTable dt2 = new DataTable();
+                dt2.Load(dr2);
+                dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                dataGridView2.DataSource = dt2;
+                dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView2.AutoResizeColumns();
 
             }
-            catch (Exception)
-            {
-                MessageBox.Show("ERROR");
-            }
+            
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -509,103 +546,143 @@ namespace DATABASE_MANAGER
 
         private void button3_Click(object sender, EventArgs e)
         {
-            try
+            int row = dataGridView2.Rows.Count - 1;
+            if (row > 0)
             {
-                string sqlgrant = "REVOKE " + label6.Text + " FROM " + label4.Text;
-                OracleCommand cmd = new OracleCommand(sqlgrant, con);
-                OracleDataReader dr = cmd.ExecuteReader();
+                for (int i = 0; i < row; i++)
+                {
+                    string role = dataGridView2.Rows[i].Cells[0].Value.ToString();
+                    string revoke = dataGridView2.Rows[i].Cells[2].Value.ToString();
 
-                string sqlselect4 = "select granted_role, admin_option from dba_role_privs where grantee = '" + rolename + "'";
-                OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
-                OracleDataReader dr4 = cmd4.ExecuteReader();
-                DataTable dt4 = new DataTable();
-                dt4.Load(dr4);
-                dataGridView2.DataSource = dt4;
-                dataGridView2.Columns["GRANTED_ROLE"].Width = 120;
+                    string sqlrevoke = null;
+                    if (revoke == "True")
+                    {
+                        sqlrevoke = "REVOKE " + role + " FROM " + rolename;
+                        try
+                        {
+                            OracleCommand cmd = new OracleCommand(sqlrevoke, con);
+                            OracleDataReader dr = cmd.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show(error.Message);
+                        }
+                    }
+                }
+
+                string sqlselect2 = "select GRANTED_ROLE, ADMIN_OPTION from ROLE_ROLE_PRIVS where ROLE = '" + rolename + "'";
+                OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
+                OracleDataReader dr2 = cmd2.ExecuteReader();
+                DataTable dt2 = new DataTable();
+                dt2.Load(dr2);
+                dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                dataGridView2.DataSource = dt2;
+                dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView2.AutoResizeColumns();
+
             }
-            catch (Exception)
-            {
-                MessageBox.Show("ERROR");
-            }
+
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            try
+            int row = dataGridView6.Rows.Count - 1;
+            if (row > 0)
             {
-                string sqlgrant = "GRANT ";
-                if (checkBox3.Checked)
+                for (int i = 0; i < row; i++)
                 {
-                    sqlgrant += label4.Text + " TO " + label13.Text + " WITH ADMIN OPTION";
-                    checkBox3.Checked = false;
-                }
-                else
-                {
-                    sqlgrant += label4.Text + " TO " + label13.Text;
+                    string user = dataGridView6.Rows[i].Cells[0].Value.ToString();
+                    string granted = dataGridView6.Rows[i].Cells[1].Value.ToString();
+                    string admin = dataGridView6.Rows[i].Cells[2].Value.ToString();
+
+                    string sqlgrant = null;
+                    if (admin == "True")
+                    {
+                        sqlgrant = "GRANT " + rolename + " TO " + user + " WITH ADMIN OPTION";
+                    }
+                    else if ((admin == "False" || admin == "") && granted == "True")
+                    {
+                        string sqlrevoke = "REVOKE " + rolename + " FROM " + user;
+                        try
+                        {
+                            OracleCommand cmd = new OracleCommand(sqlrevoke, con);
+                            OracleDataReader dr = cmd.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            //MessageBox.Show(error.Message);
+                        }
+
+                        sqlgrant = "GRANT " + rolename + " TO " + user;
+                    }
+
+                    if (sqlgrant != null)
+                    {
+                        try
+                        {
+                            OracleCommand cmd = new OracleCommand(sqlgrant, con);
+                            OracleDataReader dr = cmd.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show(error.Message);
+                        }
+                    }
                 }
 
-                OracleCommand cmd = new OracleCommand(sqlgrant, con);
-                OracleDataReader dr = cmd.ExecuteReader();
-
-                string sqlselect5 = "SELECT GRANTEE, ADMIN_OPTION FROM DBA_ROLE_PRIVS WHERE GRANTED_ROLE = '" + rolename + "'";
+                string sqlselect5 = "SELECT GRANTEE, ADMIN_OPTION FROM USER_ROLE_PRIVS WHERE GRANTED_ROLE = '" + rolename + "'";
                 OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
                 OracleDataReader dr5 = cmd5.ExecuteReader();
                 DataTable dt5 = new DataTable();
                 dt5.Load(dr5);
+                dt5.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
                 dataGridView5.DataSource = dt5;
-                dataGridView5.Columns["GRANTEE"].Width = 120;
+                dataGridView5.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView5.AutoResizeColumns();
 
-
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("ERROR");
             }
         }
 
-        private void dataGridView6_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                //Lưu lại dòng dữ liệu vừa kích chọn
-                DataGridViewRow row = this.dataGridView6.Rows[e.RowIndex];
-                //Đưa dữ liệu vào textbox
-                label13.Text = row.Cells[0].Value.ToString();
-            }
-        }
 
-        private void dataGridView5_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                //Lưu lại dòng dữ liệu vừa kích chọn
-                DataGridViewRow row = this.dataGridView5.Rows[e.RowIndex];
-                //Đưa dữ liệu vào textbox
-                label2.Text = row.Cells[0].Value.ToString();
-            }
-        }
+
+
 
         private void button6_Click(object sender, EventArgs e)
         {
-            try
+            int row = dataGridView5.Rows.Count - 1;
+            if (row > 0)
             {
-                string sqlgrant = "REVOKE " + label4.Text + " FROM " + label13.Text;
-                OracleCommand cmd = new OracleCommand(sqlgrant, con);
-                OracleDataReader dr = cmd.ExecuteReader();
+                for (int i = 0; i < row; i++)
+                {
+                    string user = dataGridView5.Rows[i].Cells[0].Value.ToString();
+                    string revoke = dataGridView5.Rows[i].Cells[2].Value.ToString();
 
-                string sqlselect5 = "SELECT GRANTEE, ADMIN_OPTION FROM DBA_ROLE_PRIVS WHERE GRANTED_ROLE = '" + rolename + "'";
+                    string sqlrevoke = null;
+                    if (revoke == "True")
+                    {
+                        sqlrevoke = "REVOKE " + rolename + " FROM " + user;
+                        try
+                        {
+                            OracleCommand cmd = new OracleCommand(sqlrevoke, con);
+                            OracleDataReader dr = cmd.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show(error.Message);
+                        }
+                    }
+                }
+
+                string sqlselect5 = "SELECT GRANTEE, ADMIN_OPTION FROM USER_ROLE_PRIVS WHERE GRANTED_ROLE = '" + rolename + "'";
                 OracleCommand cmd5 = new OracleCommand(sqlselect5, con);
                 OracleDataReader dr5 = cmd5.ExecuteReader();
                 DataTable dt5 = new DataTable();
                 dt5.Load(dr5);
+                dt5.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
                 dataGridView5.DataSource = dt5;
-                dataGridView5.Columns["GRANTEE"].Width = 120;
-
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("ERROR");
-            }
+                dataGridView5.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView5.AutoResizeColumns();
+            }          
         }
 
         private void button9_Click(object sender, EventArgs e)
