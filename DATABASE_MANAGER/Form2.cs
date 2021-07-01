@@ -113,7 +113,7 @@ namespace DATABASE_MANAGER
 
         private void button6_Click(object sender, EventArgs e)
         {
-            string sqlselect = "SELECT * FROM ROLE_TAB_PRIVS";
+            string sqlselect = "SELECT * FROM ROLE_TAB_PRIVS WHERE OWNER = '" + username + "'";
             OracleCommand cmd = new OracleCommand(sqlselect, con);
             OracleDataReader dr = cmd.ExecuteReader();
             DataTable dt = new DataTable();

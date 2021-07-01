@@ -29,6 +29,7 @@ namespace DATABASE_MANAGER
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form8));
             this.button1 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -78,8 +79,9 @@ namespace DATABASE_MANAGER
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button11);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form8";
-            this.Text = "Form8";
+            this.Text = "Drop role";
             this.Load += new System.EventHandler(this.Form8_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -53,7 +53,7 @@ namespace DATABASE_MANAGER
                     string us = username.ToLower();
                     con.Close();
 
-                    connectionString = "DATA SOURCE = localhost:1521/xe; user id = QLBENHVIEN; PASSWORD = 123456";
+                    connectionString = "DATA SOURCE = localhost:1521/QUANLYBENHVIEN; user id = QLBENHVIEN; PASSWORD = 123456";
                     con.ConnectionString = connectionString;
                     con.Open();
 
@@ -66,7 +66,7 @@ namespace DATABASE_MANAGER
 
                     string type = dataGridView1.Rows[0].Cells[0].Value.ToString();
 
-                    connectionString = "DATA SOURCE = localhost:1521/xe; user id = " + username + "; PASSWORD = " + password + "";
+                    connectionString = "DATA SOURCE = localhost:1521/QUANLYBENHVIEN; user id = " + username + "; PASSWORD = " + password + "";
 
                     if(type == "0")
                     {

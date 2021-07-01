@@ -45,12 +45,12 @@ namespace DATABASE_MANAGER
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.label1.Location = new System.Drawing.Point(132, 9);
+            this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label1.Location = new System.Drawing.Point(73, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(184, 22);
+            this.label1.Size = new System.Drawing.Size(281, 22);
             this.label1.TabIndex = 0;
-            this.label1.Text = "QUAN LY BENH VIEN";
+            this.label1.Text = "HỆ THỐNG QUẢN LÝ BỆNH VIỆN";
             // 
             // label2
             // 

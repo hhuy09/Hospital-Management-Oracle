@@ -35,8 +35,26 @@ namespace DATABASE_MANAGER
             OracleDataReader dr = cmd.ExecuteReader();
             DataTable dt = new DataTable();
             dt.Load(dr);
-            dataGridView1.DataSource = dt;
-            label3.Text = dataGridView1.Rows[0].Cells[1].Value.ToString();
+            dataGridView9.DataSource = dt;    
+            dataGridView9.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView9.AutoResizeColumns();
+
+            int row = dataGridView9.Rows.Count - 1;
+            for (int i = 0; i < row; i++)
+            {
+                string mans = dataGridView9.Rows[i].Cells[0].Value.ToString();
+                if (mans == label2.Text)
+                {
+                    textBox18.Text = dataGridView9.Rows[i].Cells[1].Value.ToString();
+                    label3.Text = textBox18.Text;
+                    comboBox3.Text = dataGridView9.Rows[i].Cells[2].Value.ToString();
+                    string ngay = dataGridView9.Rows[i].Cells[3].Value.ToString();
+                    ngay = ngay.Substring(0, ngay.IndexOf(" "));
+                    textBox15.Text = ngay;
+                    textBox17.Text = dataGridView9.Rows[i].Cells[4].Value.ToString();
+                    textBox16.Text = dataGridView9.Rows[i].Cells[5].Value.ToString();
+                }
+            }
 
             string sqlselect1 = "SELECT * FROM QLBENHVIEN.HSBENHNHAN";
             OracleCommand cmd1 = new OracleCommand(sqlselect1, con);
@@ -44,7 +62,8 @@ namespace DATABASE_MANAGER
             DataTable dt1 = new DataTable();
             dt1.Load(dr1);
             dataGridView1.DataSource = dt1;
-            dataGridView1.Columns["HOTENBN"].Width = 200;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.AutoResizeColumns();
 
             try
             {
@@ -55,6 +74,8 @@ namespace DATABASE_MANAGER
                 dt2.Load(dr2);
                 dataGridView2.DataSource = dt2;
                 dataGridView2.Columns["TINHTRANG"].Width = 200;
+                dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView2.AutoResizeColumns();
             }
             catch
             {
@@ -68,6 +89,8 @@ namespace DATABASE_MANAGER
             DataTable dt3 = new DataTable();
             dt3.Load(dr3);
             dataGridView3.DataSource = dt3;
+            dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView3.AutoResizeColumns();
 
             try
             {
@@ -77,6 +100,8 @@ namespace DATABASE_MANAGER
                 DataTable dt4 = new DataTable();
                 dt4.Load(dr4);
                 dataGridView4.DataSource = dt4;
+                dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView4.AutoResizeColumns();
                 string mapkb = dataGridView4.Rows[0].Cells[0].Value.ToString();
                 label21.Text = mapkb;
 
@@ -86,6 +111,8 @@ namespace DATABASE_MANAGER
                 DataTable dt5 = new DataTable();
                 dt5.Load(dr5);
                 dataGridView5.DataSource = dt5;
+                dataGridView5.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView5.AutoResizeColumns();
 
                 string sqlselect6 = "SELECT * FROM QLBENHVIEN.DP_DICHVU";
                 OracleCommand cmd6 = new OracleCommand(sqlselect6, con);
@@ -93,20 +120,31 @@ namespace DATABASE_MANAGER
                 DataTable dt6 = new DataTable();
                 dt6.Load(dr6);
                 dataGridView6.DataSource = dt6;
-                dataGridView6.Columns["TENDV"].Width = 220;
+                dataGridView6.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView6.AutoResizeColumns();
             }
             catch
             {
 
             }
             
-
             string sqlselect7 = "SELECT * FROM QLBENHVIEN.LICHTRUC";
             OracleCommand cmd7 = new OracleCommand(sqlselect7, con);
             OracleDataReader dr7 = cmd7.ExecuteReader();
             DataTable dt7 = new DataTable();
             dt7.Load(dr7);
             dataGridView7.DataSource = dt7;
+            dataGridView7.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView7.AutoResizeColumns();
+
+            string sqlselect8 = "SELECT * FROM QLBENHVIEN.NS_CHAMCONG";
+            OracleCommand cmd8 = new OracleCommand(sqlselect8, con);
+            OracleDataReader dr8 = cmd8.ExecuteReader();
+            DataTable dt8 = new DataTable();
+            dt8.Load(dr8);
+            dataGridView8.DataSource = dt8;
+            dataGridView8.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView8.AutoResizeColumns();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -137,7 +175,9 @@ namespace DATABASE_MANAGER
                     textBox12.Text = dataGridView1.Rows[0].Cells[0].Value.ToString();
                     textBox10.Text = dataGridView1.Rows[0].Cells[1].Value.ToString();
                     textBox11.Text = dataGridView1.Rows[0].Cells[2].Value.ToString();
-                    textBox1.Text = dataGridView1.Rows[0].Cells[4].Value.ToString();
+                    string ngay = dataGridView1.Rows[0].Cells[4].Value.ToString();
+                    ngay = ngay.Substring(0, ngay.IndexOf(" "));
+                    textBox1.Text = ngay;
                     comboBox2.Text = dataGridView1.Rows[0].Cells[3].Value.ToString();
                     textBox8.Text = dataGridView1.Rows[0].Cells[6].Value.ToString();
                     textBox9.Text = dataGridView1.Rows[0].Cells[5].Value.ToString();
@@ -527,6 +567,56 @@ namespace DATABASE_MANAGER
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sqlselect = "update QLBENHVIEN.NVBS set HOTENNS = '" + textBox18.Text + "', GIOITINH = '" + comboBox3.Text + "', NGAYSINH = to_date('" + textBox15.Text + "','dd-mm-yyyy'), DIACHI = '" + textBox17.Text + "', SODT = '" + textBox16.Text + "' where MANS = '" + label2.Text + "'";
+                OracleCommand cmd = new OracleCommand(sqlselect, con);
+                OracleDataReader dr = cmd.ExecuteReader();
+
+                string sqlselect4 = "SELECT * FROM QLBENHVIEN.NVBS";
+                OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
+                OracleDataReader dr4 = cmd4.ExecuteReader();
+                DataTable dt4 = new DataTable();
+                dt4.Load(dr4);
+                dataGridView9.DataSource = dt4;
+                dataGridView9.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView9.AutoResizeColumns();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            if (textBox20.Text == textBox19.Text && textBox20.Text != null)
+            {
+                try
+                {
+                    string sqlselect = "alter user " + label2.Text + " identified by " + textBox20.Text;
+                    OracleCommand cmd = new OracleCommand(sqlselect, con);
+                    OracleDataReader dr = cmd.ExecuteReader();
+
+                    MessageBox.Show("Đổi mật khẩu thành công. Đăng nhập lại");
+                    this.Close();
+                    Form1 f1 = new Form1();
+                    f1.Show();
+
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show(error.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Mật khẩu không khớp hoặc không hợp lệ");
             }
         }
     }

@@ -18,7 +18,8 @@ namespace DATABASE_MANAGER
         public string dbm;
         public string tbname;
         public string permiss;
-        string col;
+        public string type;
+
         OracleConnection con;
         public Form9()
         {
@@ -52,25 +53,50 @@ namespace DATABASE_MANAGER
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoResizeColumns();
 
-            string sqlselect2 = "select TABLE_NAME , GRANTABLE from USER_TAB_PRIVS where PRIVILEGE = 'SELECT' AND TYPE = 'VIEW' AND GRANTEE = '" + name + "'";
-            OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
-            OracleDataReader dr2 = cmd2.ExecuteReader();
-            DataTable dt2 = new DataTable();
-            dt2.Load(dr2);
-            dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
-            dataGridView2.DataSource = dt2;
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView2.AutoResizeColumns();
+            if(type =="usertype")
+            {
+                string sqlselect2 = "SELECT VIEW_NAME, TEXT, GRANTABLE FROM ALL_VIEWS A, USER_TAB_PRIVS U WHERE A.VIEW_NAME = U.TABLE_NAME AND A.OWNER = '" + dbm + "' AND GRANTEE = '" + name + "'";
+                OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
+                OracleDataReader dr2 = cmd2.ExecuteReader();
+                DataTable dt2 = new DataTable();
+                dt2.Load(dr2);
+                dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                dataGridView2.DataSource = dt2;
+                dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView2.AutoResizeColumns();
 
-            string sqlselect3 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from USER_COL_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND GRANTEE = '" + name + "'";
-            OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
-            OracleDataReader dr3 = cmd3.ExecuteReader();
-            DataTable dt3 = new DataTable();
-            dt3.Load(dr3);
-            dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
-            dataGridView3.DataSource = dt3;
-            dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView3.AutoResizeColumns();
+                string sqlselect3 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from USER_COL_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND GRANTEE = '" + name + "'";
+                OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+                OracleDataReader dr3 = cmd3.ExecuteReader();
+                DataTable dt3 = new DataTable();
+                dt3.Load(dr3);
+                dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                dataGridView3.DataSource = dt3;
+                dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView3.AutoResizeColumns();
+            }
+            else if (type == "roletype")
+            {
+                string sqlselect2 = "SELECT VIEW_NAME, TEXT, GRANTABLE FROM ALL_VIEWS A, ROLE_TAB_PRIVS U WHERE A.VIEW_NAME = U.TABLE_NAME AND A.OWNER = '" + dbm + "' AND ROLE = '" + name + "'";
+                OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
+                OracleDataReader dr2 = cmd2.ExecuteReader();
+                DataTable dt2 = new DataTable();
+                dt2.Load(dr2);
+                dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                dataGridView2.DataSource = dt2;
+                dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView2.AutoResizeColumns();
+
+                string sqlselect3 = "select COLUMN_NAME, PRIVILEGE, GRANTABLE from ROLE_TAB_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND ROLE = '" + name + "' AND COLUMN_NAME IS NOT NULL";
+                OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+                OracleDataReader dr3 = cmd3.ExecuteReader();
+                DataTable dt3 = new DataTable();
+                dt3.Load(dr3);
+                dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                dataGridView3.DataSource = dt3;
+                dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView3.AutoResizeColumns();
+            }
 
             string sqlselect4 = "select COLUMN_NAME from ALL_TAB_COLUMNS where owner = '" + dbm + "' and TABLE_NAME = '" + tbname + "'";
             OracleCommand cmd4 = new OracleCommand(sqlselect4, con);
@@ -89,32 +115,6 @@ namespace DATABASE_MANAGER
         {
             con.Close();
             this.Close();
-        }
-
-
-
-    
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string sqlgrant = "REVOKE UPDATE ON " + label10.Text + " FROM " + name;
-                OracleCommand cmd = new OracleCommand(sqlgrant, con);
-                OracleDataReader dr = cmd.ExecuteReader();
-
-                string sqlselect2 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from DBA_COL_PRIVS where owner = '" + dbm + "' and TABLE_NAME = '" + tbname + "'";
-                OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
-                OracleDataReader dr2 = cmd2.ExecuteReader();
-                DataTable dt2 = new DataTable();
-                dt2.Load(dr2);
-                dataGridView2.DataSource = dt2;
-
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("ERROR");
-            }
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -149,44 +149,58 @@ namespace DATABASE_MANAGER
                     {
                         OracleCommand cmd = new OracleCommand(selectview, con);
                         OracleDataReader dr = cmd.ExecuteReader();
+
+                        string sqlselect = "grant select on ";
+                        if (checkBox1.Checked)
+                        {
+                            sqlselect += viewname + " to " + name + " with grant option";
+                        }
+                        else
+                        {
+                            sqlselect += viewname + " to " + name;
+                        }
+
+                        try
+                        {
+                            OracleCommand cmd1 = new OracleCommand(sqlselect, con);
+                            OracleDataReader dr1 = cmd1.ExecuteReader();
+                        }
+                        catch (Exception error)
+                        {
+                            MessageBox.Show(error.Message);
+                        }
+
                     }
                     catch (Exception error)
                     {
                         MessageBox.Show(error.Message);
-                    }
-                    
-
-                    string sqlselect = "grant select on ";
-                    if (checkBox1.Checked)
-                    {
-                        sqlselect += viewname + " to " + name + " with grant option";
-                    }
-                    else
-                    {
-                        sqlselect += viewname + " to " + name;
-                    }
-
-                    try
-                    {
-                        OracleCommand cmd1 = new OracleCommand(sqlselect, con);
-                        OracleDataReader dr1 = cmd1.ExecuteReader();
-                    }
-                    catch (Exception error)
-                    {
-                        MessageBox.Show(error.Message);
-                    }
-                    
+                    }                     
                 }
 
-                string sqlselect2 = "select TABLE_NAME , GRANTABLE from USER_TAB_PRIVS where PRIVILEGE = 'SELECT' AND TYPE = 'VIEW' AND GRANTEE = '" + name + "'";
-                OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
-                OracleDataReader dr2 = cmd2.ExecuteReader();
-                DataTable dt2 = new DataTable();
-                dt2.Load(dr2);
-                dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
-                dataGridView2.DataSource = dt2;
-                dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridView2.AutoResizeColumns();
+                if (type == "usertype")
+                {
+                    string sqlselect2 = "SELECT VIEW_NAME, TEXT, GRANTABLE FROM ALL_VIEWS A, USER_TAB_PRIVS U WHERE A.VIEW_NAME = U.TABLE_NAME AND A.OWNER = '" + dbm + "' AND GRANTEE = '" + name + "'";
+                    OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
+                    OracleDataReader dr2 = cmd2.ExecuteReader();
+                    DataTable dt2 = new DataTable();
+                    dt2.Load(dr2);
+                    dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                    dataGridView2.DataSource = dt2;
+                    dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridView2.AutoResizeColumns();
+                }
+                else if (type == "roletype")
+                {
+                    string sqlselect2 = "SELECT VIEW_NAME, TEXT, GRANTABLE FROM ALL_VIEWS A, ROLE_TAB_PRIVS U WHERE A.VIEW_NAME = U.TABLE_NAME AND A.OWNER = '" + dbm + "' AND ROLE = '" + name + "'";
+                    OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
+                    OracleDataReader dr2 = cmd2.ExecuteReader();
+                    DataTable dt2 = new DataTable();
+                    dt2.Load(dr2);
+                    dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                    dataGridView2.DataSource = dt2;
+                    dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridView2.AutoResizeColumns();
+                }
 
             }
 
@@ -201,7 +215,7 @@ namespace DATABASE_MANAGER
                 for (int i = 0; i < row; i++)
                 {
                     string view = dataGridView2.Rows[i].Cells[0].Value.ToString();
-                    string revoke = dataGridView2.Rows[i].Cells[2].Value.ToString();
+                    string revoke = dataGridView2.Rows[i].Cells[3].Value.ToString();
 
                     if (revoke == "True")
                     {
@@ -218,15 +232,30 @@ namespace DATABASE_MANAGER
                     }
                 }
 
-                string sqlselect2 = "select TABLE_NAME , GRANTABLE from USER_TAB_PRIVS where PRIVILEGE = 'SELECT' AND TYPE = 'VIEW' AND GRANTEE = '" + name + "'";
-                OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
-                OracleDataReader dr2 = cmd2.ExecuteReader();
-                DataTable dt2 = new DataTable();
-                dt2.Load(dr2);
-                dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
-                dataGridView2.DataSource = dt2;
-                dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridView2.AutoResizeColumns();
+                if (type == "usertype")
+                {
+                    string sqlselect2 = "SELECT VIEW_NAME, TEXT, GRANTABLE FROM ALL_VIEWS A, USER_TAB_PRIVS U WHERE A.VIEW_NAME = U.TABLE_NAME AND A.OWNER = '" + dbm + "' AND GRANTEE = '" + name + "'";
+                    OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
+                    OracleDataReader dr2 = cmd2.ExecuteReader();
+                    DataTable dt2 = new DataTable();
+                    dt2.Load(dr2);
+                    dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                    dataGridView2.DataSource = dt2;
+                    dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridView2.AutoResizeColumns();
+                }
+                else if (type == "roletype")
+                {
+                    string sqlselect2 = "SELECT VIEW_NAME, TEXT, GRANTABLE FROM ALL_VIEWS A, ROLE_TAB_PRIVS U WHERE A.VIEW_NAME = U.TABLE_NAME AND A.OWNER = '" + dbm + "' AND ROLE = '" + name + "'";
+                    OracleCommand cmd2 = new OracleCommand(sqlselect2, con);
+                    OracleDataReader dr2 = cmd2.ExecuteReader();
+                    DataTable dt2 = new DataTable();
+                    dt2.Load(dr2);
+                    dt2.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                    dataGridView2.DataSource = dt2;
+                    dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridView2.AutoResizeColumns();
+                }
 
             }
         }
@@ -258,15 +287,30 @@ namespace DATABASE_MANAGER
                     }
                 }
 
-                string sqlselect3 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from USER_COL_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND GRANTEE = '" + name + "'";
-                OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
-                OracleDataReader dr3 = cmd3.ExecuteReader();
-                DataTable dt3 = new DataTable();
-                dt3.Load(dr3);
-                dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
-                dataGridView3.DataSource = dt3;
-                dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridView3.AutoResizeColumns();
+                if (type == "usertype")
+                {
+                    string sqlselect3 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from USER_COL_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND GRANTEE = '" + name + "'";
+                    OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+                    OracleDataReader dr3 = cmd3.ExecuteReader();
+                    DataTable dt3 = new DataTable();
+                    dt3.Load(dr3);
+                    dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                    dataGridView3.DataSource = dt3;
+                    dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridView3.AutoResizeColumns();
+                }
+                else if (type == "roletype")
+                {
+                    string sqlselect3 = "select COLUMN_NAME, PRIVILEGE, GRANTABLE from ROLE_TAB_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND ROLE = '" + name + "' AND COLUMN_NAME IS NOT NULL";
+                    OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+                    OracleDataReader dr3 = cmd3.ExecuteReader();
+                    DataTable dt3 = new DataTable();
+                    dt3.Load(dr3);
+                    dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                    dataGridView3.DataSource = dt3;
+                    dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridView3.AutoResizeColumns();
+                }
 
             }
         }
@@ -336,15 +380,30 @@ namespace DATABASE_MANAGER
 
                 }
 
-                string sqlselect3 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from USER_COL_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND GRANTEE = '" + name + "'";
-                OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
-                OracleDataReader dr3 = cmd3.ExecuteReader();
-                DataTable dt3 = new DataTable();
-                dt3.Load(dr3);
-                dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
-                dataGridView3.DataSource = dt3;
-                dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dataGridView3.AutoResizeColumns();
+                if (type == "usertype")
+                {
+                    string sqlselect3 = "select COLUMN_NAME, PRIVILEGE , GRANTABLE from USER_COL_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND GRANTEE = '" + name + "'";
+                    OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+                    OracleDataReader dr3 = cmd3.ExecuteReader();
+                    DataTable dt3 = new DataTable();
+                    dt3.Load(dr3);
+                    dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                    dataGridView3.DataSource = dt3;
+                    dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridView3.AutoResizeColumns();
+                }
+                else if (type == "roletype")
+                {
+                    string sqlselect3 = "select COLUMN_NAME, PRIVILEGE, GRANTABLE from ROLE_TAB_PRIVS WHERE TABLE_NAME = '" + tbname + "' AND ROLE = '" + name + "' AND COLUMN_NAME IS NOT NULL";
+                    OracleCommand cmd3 = new OracleCommand(sqlselect3, con);
+                    OracleDataReader dr3 = cmd3.ExecuteReader();
+                    DataTable dt3 = new DataTable();
+                    dt3.Load(dr3);
+                    dt3.Columns.Add(new DataColumn("REVOKE", typeof(bool)));
+                    dataGridView3.DataSource = dt3;
+                    dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                    dataGridView3.AutoResizeColumns();
+                }
             }
 
             checkBox2.Checked = false;

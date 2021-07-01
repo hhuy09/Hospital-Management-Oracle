@@ -413,7 +413,7 @@ namespace DATABASE_MANAGER
                             OracleCommand cmd = new OracleCommand(sqlrevoke, con);
                             OracleDataReader dr = cmd.ExecuteReader();
                         }
-                        catch (Exception error)
+                        catch (Exception)
                         {
                             //MessageBox.Show(error.Message);
                         }
@@ -454,13 +454,13 @@ namespace DATABASE_MANAGER
             {
                 for (int i = 0; i < row; i++)
                 {
-                    string rolename = dataGridView2.Rows[i].Cells[0].Value.ToString();
+                    string privs = dataGridView2.Rows[i].Cells[0].Value.ToString();
                     string revoke = dataGridView2.Rows[i].Cells[2].Value.ToString();
 
                     string sqlrevoke = null;
                     if (revoke == "True")
                     {
-                        sqlrevoke = "REVOKE " + rolename + " FROM " + username;
+                        sqlrevoke = "REVOKE " + privs + " FROM " + username;
                         try
                         {
                             OracleCommand cmd = new OracleCommand(sqlrevoke, con);
@@ -509,7 +509,7 @@ namespace DATABASE_MANAGER
                             OracleCommand cmd = new OracleCommand(sqlrevoke, con);
                             OracleDataReader dr = cmd.ExecuteReader();
                         }
-                        catch (Exception error)
+                        catch (Exception)
                         {
                             //MessageBox.Show(error.Message);
                         }
@@ -775,6 +775,7 @@ namespace DATABASE_MANAGER
                 f9.connectionString = connectionString;
                 f9.name = username;
                 f9.dbm = dbm;
+                f9.type = "usertype";
                 f9.tbname = table;
                 f9.Show();
             }
